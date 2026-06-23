@@ -9,6 +9,7 @@ library(reshape2)
 library(ggplot2)
 library(purrr)
 library(here)
+library(ggridges)
 
 
 # ---- Prepping Globals --------------------------------------------------------------------------
@@ -200,21 +201,46 @@ combined_scores_summary <- combined_scores %>%
   summarize(mean_score = mean(Similarity_Score))
 
 
-ggplot(combined_scores, aes(x = Similarity_Score, fill = Language)) +
-  geom_density(alpha = 0.5) +
-  geom_vline(
+cossim_grammar_density_ridge <- ggplot(combined_scores, aes(x = Similarity_Score, y = Language, fill = Language)) +
+  
+  geom_density_ridges(alpha = 0.5, scale = 1.2, color = "black") + 
+  
+  geom_segment(
     data = combined_scores_summary,
-    aes(xintercept = mean_score, color = Language),
+    aes(
+      x = mean_score, 
+      xend = mean_score, 
+      y = as.numeric(factor(Language)), 
+      yend = as.numeric(factor(Language)) + 0.9, 
+      color = Language
+    ),
     linetype = "dashed",
-    size = 1.2
+    size = 1.2,
+    inherit.aes = FALSE # Prevents conflicting with the main plot's y aesthetic mapping
   ) +
   labs(
-    title = "Cosine Similarity Distribution",
+    title = "Grammar Cosine Similarity Distribution",
     x = "Similarity Score",
-    y = "Density"
+    y = "Language"
   ) +
-  theme_bw() +
-  scale_x_continuous(breaks = seq(0, 0.78, by = 0.05))
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(0, 0.4, by = 0.05)) +
+  scale_y_discrete(expand = c(0.01,0)) +
+  theme(legend.position = "none")
+
+#---
+cossim_grammar_density_ridge
+#---
+
+ggsave(
+  filename = here("figures", "grammar", "distributions", "grammar_ridgeplot.png"),
+  plot = cossim_grammar_density_ridge,
+  width = 7,
+  height = 4.5,
+  units = "in",
+  dpi = 300
+)
+
 
 grammar_cos_s <- ggplot(combined_scores %>% filter(Language %in% c('Unrelated','Spanish')), aes(x = Similarity_Score, fill = Language)) +
   geom_density(alpha = 0.5) +
