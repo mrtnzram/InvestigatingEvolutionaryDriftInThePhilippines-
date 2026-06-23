@@ -1,0 +1,31 @@
+# --- macOS / editor cruft ---
+.DS_Store
+**/.DS_Store
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# --- Local project notes (not part of the published repo) ---
+CLAUDE.md
+
+# --- Secrets ---
+credentials/
+
+# --- Archived legacy scripts (superseded by R/) ---
+_archive/
+
+# --- Cognate analysis: excluded from the paper for now ---
+R/cognate_analysis/
+
+# --- Generated figures (regenerate from the R scripts) ---
+figures/
+
+# --- Large source databases & generated R objects ---
+data/values.csv
+data/languages.csv
+data/logicalTLI_grammar_densified_large.csv
+*.rds
+
+# --- EEMS MCMC run outputs (large/generated; re-run MATLAB EEMS to recreate) ---
+matlab/**/datapath-*simno*/
