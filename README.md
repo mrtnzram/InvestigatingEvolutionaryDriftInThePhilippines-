@@ -1,4 +1,4 @@
-# Investigating evolutionary drift in the Philippines
+# Investigating evolutionary drift in the Philippines Analysis
 
 Quantifying and modeling Spanish colonial influence on Philippine languages through
 computational-linguistic analysis. The project measures the structural similarity of
